@@ -11,10 +11,13 @@
             id int primary key auto_increment,
             name varchar(50) not null,
             price int not null,
+            brand varchar(50) not null, 
+            quantity int default 1,
             image varchar(50)
         )";
+
     $conn->query($sql) or die("table products creation failed");
-    $conn->query("insert into products(name,price,image) values('asdfasdf',1234,'http://localhost/img/grafitti2.jpg')") or die("inserting value failed in table products");
+    $conn->query("insert into products(name,price,image,brand) values('asdfasdf',432,'http://localhost/img/grafitti2.jpg','bmw')") or die("inserting value failed in table products");
 
     $conn->query("CREATE TABLe if not exists users (
             id int primary key auto_increment,

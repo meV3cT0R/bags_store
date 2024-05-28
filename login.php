@@ -14,7 +14,7 @@ if (isset($_POST["submit"])) {
         $row = mysqli_fetch_array($result);
         $_SESSION["uid"] = $row["id"];
         $_SESSION["username"] = $row["username"];
-
+        $_SESSION["role"] = $row["role"];
         header("Location: index.php");
     } else {
         echo "invalid username/password";

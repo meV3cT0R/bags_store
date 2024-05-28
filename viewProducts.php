@@ -41,7 +41,7 @@
                             <div class="flex  space-x-5">
                                 <form action="editProduct.php" method="post">
                                     <input type="number" name="id" hidden value="<?=$row["id"]?>"/>
-                                    <input type="number" name="name" hidden value="<?=$row["name"]?>"/>
+                                    <input type="text" name="name" hidden value="<?=$row["name"]?>"/>
                                     <input type="number" name="price" hidden value="<?=$row["price"]?>"/>
 
                                     

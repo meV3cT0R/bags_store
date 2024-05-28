@@ -12,83 +12,59 @@
     <script src="https://fontawesome.com/" crossorigin="anonymous"></script>
     <link href="https://fontawesome.com/icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
     <div class="container">
-        <nav>
-            <div class="logo">
-                <h1>Carry</h1>
-            </div>
-            <ul>
-                <li>
-                    <a id="home" onclick="home()">Home</a>
-                    <a id="shop" onclick="shop()">Shop</a>
-                    <a id="about" onclick="about()">About</a>
-                    <a id="contact" onclick="contact()">Contact</a>
-                    <?php
-                    session_start();
-                    if (isset($_SESSION["username"])) {
-                        ?>
-                        <form action="logout.php" method="post"><button name="logout"> logout</button></form>
-                        <?php
-                    } else { ?>
-
-                        <a href="login.php">Login</a>
-                        <a href="register.php">Register</a>
-
-                        <?php
-
-                    }
-                    ?>
-                    <a href="cart.php"><i class="fa fa-shopping-cart"></i></a>
-
-                </li>
-            </ul>
-        </nav>
+        <?php include("./components/navbar.php"); ?>
 
         <div class="main">
             <div class="mainText">
-                <h2>Carry</h2>
-                <h1 class="top">Bags For Life</h1>
-                <h1>Get Yours Now</h1>
-                <h1>Only On Carry</h1>
+                <h2 class="text-5xl font-bold">Carry</h2>
+                <h1 class="top text-3xl ">Bags For Life</h1>
+                <h1 class="text-3xl ">Get Yours Now</h1>
+                <h1 class="text-3xl ">Only On Carry</h1>
             </div>
             <img src="http://localhost/img/background1.jpg" alt="">
         </div>
 
         <div class="Carry">
-        <div class="card">
-            <?php
+            <div class="head">
+                <h1> Bags </h1>
+            </div>
+            <div class="card">
+                <?php
 
-            include ("config.php");
+                include ("config.php");
 
-            $sql = "SELECT * FROM products;";
-            $result = mysqli_query($conn, $sql);
-            while ($row = mysqli_fetch_assoc($result)) {
-                ?>
-                
+                $sql = "SELECT * FROM products;";
+                $result = mysqli_query($conn, $sql);
+                while ($row = mysqli_fetch_assoc($result)) {
+                    ?>
 
-                   
-                        <a href="BagInfo.php/?id=<?= $row['id']?>">
 
-               
+
+                    <a class="px-3 py-1 mx-1" href="BagInfo.php/?id=<?= $row['id'] ?>">
+
+
                         <div class="crd">
                             <img src="<?php
-                                if(strncmp($row["image"],"http",4)===0) {
-                                    echo $row["image"];
-                                }else echo "http://localhost:80/bags_store/".$row["image"];
+                            if (strncmp($row["image"], "http", 4) === 0) {
+                                echo $row["image"];
+                            } else
+                                echo "http://localhost:80/bags_store/" . $row["image"];
                             ?>" alt="">
-                            <h2><?= $row["name"]?></h2>
-                            <h3> Rs. <?= $row["price"]?></h3>
+                            <h2><?= $row["name"] ?></h2>
+                            <h3> Rs. <?= $row["price"] ?></h3>
                         </div>
-                        </a>
+                    </a>
 
-                <?php
-            }
-            ?>
+                    <?php
+                }
+                ?>
 
-</div>
+            </div>
 
 
         </div>
