@@ -88,18 +88,18 @@
 
 
 
-                        <a class="px-3 py-1 mx-1" href="BagInfo.php/?id=<?= $row['id'] ?>">
+                        <a class="px-3 py-1 mx-1" href="/bags_store/BagInfo.php/?id=<?= $row['id'] ?>">
 
 
-                            <div class="crd">
+                            <div class="crd flex-col space-y-5 rounded-xl shadow-xl">
                                 <img src="<?php
                                 if (strncmp($row["image"], "http", 4) === 0) {
                                     echo $row["image"];
                                 } else
                                     echo "http://localhost:80/bags_store/" . $row["image"];
                                 ?>" alt="">
-                                <h2><?= $row["name"] ?></h2>
-                                <h3> Rs. <?= $row["price"] ?></h3>
+                                <h2 class="text-3xl font-bold capitalize text-[#902c7e] "><?= $row["name"] ?></h2>
+                                <h3 class="text-lg text-gray-900">  Rs. <?= $row["price"] ?></h3>
                             </div>
                         </a>
 

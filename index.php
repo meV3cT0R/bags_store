@@ -31,14 +31,14 @@
 
         <div class="Carry">
             <div class="head">
-                <h1> Bags </h1>
+                <h1 class="text-3xl font-bold text-[#902c7e]"> Recently Added Bags </h1>
             </div>
             <div class="card">
                 <?php
 
                 include ("config.php");
 
-                $sql = "SELECT * FROM products;";
+                $sql = "SELECT * FROM products ORDER BY createdDate DESC LIMIT 10;";
                 $result = mysqli_query($conn, $sql);
                 while ($row = mysqli_fetch_assoc($result)) {
                     ?>
@@ -48,15 +48,15 @@
                     <a class="px-3 py-1 mx-1" href="BagInfo.php/?id=<?= $row['id'] ?>">
 
 
-                        <div class="crd">
+                        <div class="crd flex flex-col space-y-5 rounded-xl shadow-xl">
                             <img src="<?php
                             if (strncmp($row["image"], "http", 4) === 0) {
                                 echo $row["image"];
                             } else
                                 echo "http://localhost:80/bags_store/" . $row["image"];
                             ?>" alt="">
-                            <h2><?= $row["name"] ?></h2>
-                            <h3> Rs. <?= $row["price"] ?></h3>
+                            <h2 class="text-3xl font-bold capitalize text-[#902c7e] "><?= $row["name"] ?></h2>
+                            <h3 class="text-lg text-gray-900"> Rs. <?= $row["price"] ?></h3>
                         </div>
                     </a>
 

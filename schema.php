@@ -13,11 +13,14 @@
             price int not null,
             brand varchar(50) not null, 
             quantity int default 1,
-            image varchar(50)
+            image varchar(50),
+            createdDate DATETIME DEFAULT CURRENT_TIMESTAMP  
         )";
 
     $conn->query($sql) or die("table products creation failed");
-    $conn->query("insert into products(name,price,image,brand) values('asdfasdf',432,'http://localhost/img/grafitti2.jpg','bmw')") or die("inserting value failed in table products");
+    $datetime = new DateTime("now",new DateTimeZone("Asia/Kathmandu"));
+    $date = $datetime->format("Y-m-d H:i:s");
+    $conn->query("insert into products(name,price,image,brand,quantity,createdDate) values('asdfasdf',432,'http://localhost/img/grafitti2.jpg','bmw',12,'$date')") or die("inserting value failed in table products");
 
     $conn->query("CREATE TABLe if not exists users (
             id int primary key auto_increment,
