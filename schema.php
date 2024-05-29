@@ -48,6 +48,7 @@
             id int primary key auto_increment,
             uid int(11) not null,
             total_price int(50) not null,
+            createdDate DATETIME DEFAULT CURRENT_TIMESTAMP,
             foreign key (uid) references users(id))
         ");
 

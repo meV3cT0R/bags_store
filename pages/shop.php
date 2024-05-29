@@ -1,34 +1,33 @@
-
 <?php
-    include("../config.php");
+include ("../config.php");
 
-    $brand_result = $conn->query("SELECT distinct brand from products;");
+$brand_result = $conn->query("SELECT distinct brand from products;");
 
 
-    if($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["search"])) {
-        $brand = $_POST["brand"];
-        $price = $_POST["price"];
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["search"])) {
+    $brand = $_POST["brand"];
+    $price = $_POST["price"];
 
-        $sql = "SELECT * FROM products ";
+    $sql = "SELECT * FROM products ";
 
-        if(trim($brand)!= "" && trim($price)!= "") {
-            $sql .= "where brand='$brand' and price <$price";
-        }
-
-        if(trim($brand)!= ""&& trim($price)=="") {
-            $sql .= "where brand='$brand'";
-
-        }
-
-        if(trim($brand)== ""&& trim($price)!="") {
-            $sql .= "where price <$price";
-        }       
-
-        $product_result = $conn->query($sql);
-        
-    }else {
-        $product_result = $conn->query("SELECT * FROM products where price <= 1000;");
+    if (trim($brand) != "all" && trim($price) != "") {
+        $sql .= "where brand='$brand' and price <$price";
     }
+
+    if (trim($brand) != "all" && trim($price) == "") {
+        $sql .= "where brand='$brand'";
+
+    }
+
+    if (trim($brand) == "all" && trim($price) != "") {
+        $sql .= "where price <$price";
+    }
+
+    $product_result = $conn->query($sql);
+
+} else {
+    $product_result = $conn->query("SELECT * FROM products where price <= 1000;");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,23 +56,26 @@
 
                     <div class="w-full">
                         <label class="text-gray-500 font-bold"> Brand Name </label>
-                        <select class="w-full border-2 rounded-lg px-2" name="brand"> 
+                        <select class="w-full border-2 rounded-lg px-2" name="brand">
+                            <option value="all"> all </option>
                             <?php
-                                while($row = mysqli_fetch_assoc($brand_result)) {
-                                    ?>
-                                        <option value="<?= $row['brand']?>">  <?= $row["brand"] ?></option>
-                                    <?php
-                                }
+                            while ($row = mysqli_fetch_assoc($brand_result)) {
+                                ?>
+                                <option value="<?= $row['brand'] ?>"> <?= $row["brand"] ?></option>
+                                <?php
+                            }
                             ?>
                         </select>
                     </div>
 
                     <div>
                         <label class="text-gray-500 font-bold"> Max Price </label>
-                        <input class="w-full border-2 rounded-lg px-2" name="price" type="number" value="1000"/>
+                        <input class="w-full border-2 rounded-lg px-2" name="price" type="number" value="1000" />
 
                     </div>
-                    <button type="submit" name="search" class="px-2 w-full border-2 rounded-lg border-green-500 text-green-500 hover:text-white hover:bg-green-500 duration-300"> Search </button>
+                    <button type="submit" name="search"
+                        class="px-2 w-full border-2 rounded-lg border-green-500 text-green-500 hover:text-white hover:bg-green-500 duration-300">
+                        Search </button>
                 </form>
             </div>
             <div class="Carry">
@@ -99,7 +101,7 @@
                                     echo "http://localhost:80/bags_store/" . $row["image"];
                                 ?>" alt="">
                                 <h2 class="text-3xl font-bold capitalize text-[#902c7e] "><?= $row["name"] ?></h2>
-                                <h3 class="text-lg text-gray-900">  Rs. <?= $row["price"] ?></h3>
+                                <h3 class="text-lg text-gray-900"> Rs. <?= $row["price"] ?></h3>
                             </div>
                         </a>
 
