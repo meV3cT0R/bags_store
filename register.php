@@ -11,16 +11,55 @@ if(isset($_POST["submit"])) {
     $phone = $_POST["mobile"];
     include("config.php");
 
+    $error = [];
 
-    $sql = "insert into users(firstName,lastName,address,username,password,email,phoneNumber) values(?,?,?,?,?,?,?)";
 
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssss", $firstName, $lastName,$address,$username,$password,$email,$phone);
-    $stmt->execute();
+    $userResult = $conn->query("SELECT * FROM users where username='$username'");
 
-    echo "user inserted";
+    if(empty($firstName) ) {
+        $error["firstName"] = "First Name mustn't be empty";
+    }
 
-    header("Location: login.php");
+    if(empty($lastName) ) {
+        $error["lastName"] = "Last Name mustn't be empty";
+    }
+
+    if(empty($address) ) {
+        $error["address"] = "Address mustn't be empty";
+    }
+
+    if(empty($password)) {
+        $error["password"] = "Password mustn't be empty";
+    }
+
+    if(empty($phone)) {
+        $error["phone"] = "phone number  mustn't be empty";
+    }
+
+    if($userResult->num_rows > 0) {
+        $error["username"] = "Username already exists";
+    }
+
+    if(!preg_match("/^[a-zA-Z0-9]+@[a-zA-Z0-9]+.(com|org|net)$/i",$email)) {
+        $error["email"] = "Email invalid";
+    }
+
+    $emailResult = $conn->query("SELECT * FROM users where email='$email'");
+    if($emailResult->num_rows > 0) {
+        $error["email"] = "Email already exists";
+    }
+
+    if(count($error) == 0) {
+
+        $sql = "insert into users(firstName,lastName,address,username,password,email,phoneNumber) values(?,?,?,?,?,?,?)";
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sssssss", $firstName, $lastName,$address,$username,$password,$email,$phone);
+        $stmt->execute();
+        
+        
+        header("Location: login.php");
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -45,35 +84,53 @@ if(isset($_POST["submit"])) {
                     <div class="field  input  space-y-3">
                         <label   for="firstName" class="text-[#902c7e]">First Name</label>
                         <input type="text" name="firstName" id="firstName" placeholder="First Name" required class="w-full px-3 py-2 border-2 rounded-lg">
+                        <p class="text-red-900"><?php if(isset($error["firstName"])) echo $error["firstName"];?></p>
+                    
                     </div>
 
                     <div class="field  input space-y-3 ">
                         <label class="text-[#902c7e]"  for="lastName">Last Name</label>
                         <input type="text" name="lastName" id="lastName" placeholder="Last Name" required class="w-full px-3 py-2 border-2 rounded-lg">
+                        <p class="text-red-900"><?php if(isset($error["lastName"])) echo $error["lastName"];?></p>
+                        
+                    
                     </div>
 
                     <div class="field  input space-y-3">
                         <label class="text-[#902c7e]"  for="address">Address</label>
                         <input type="text" name="address" id="address" placeholder="Address " required class="w-full px-3 py-2 border-2 rounded-lg">
+                        
+                        <p class="text-red-900"><?php if(isset($error["address"])) echo $error["lastName"];?></p>
+                        
+                    
                     </div>
                      <div class="field  input space-y-3">
                         <label class="text-[#902c7e]"  for="mobile">Phone Number</label>
                         <input type="number" name="mobile" id="mobile" placeholder="Phone Number" required class="w-full px-3 py-2 border-2 rounded-lg">
+                        <p class="text-red-900"><?php if(isset($error["phone"])) echo $error["lastName"];?></p>
+                    
                     </div>
 
                     <div class="field  input space-y-3 col-span-full">
                         <label class="text-[#902c7e]"  for="email">Email</label>
                         <input type="email" name="email" id="email" placeholder="Email" required class="w-full px-3 py-2 border-2 rounded-lg">
+                        <p class="text-red-900"><?php if(isset($error["email"])) echo $error["email"];?></p>
+                        
                     </div>
                     <div class="field  input space-y-3">
-                        <label class="text-[#902c7e]"  for="email">Email</label>
+                        <label class="text-[#902c7e]"  for="email">username</label>
                         <input type="username" name="username" id="email" placeholder="username" required class="w-full px-3 py-2 border-2 rounded-lg">
+                        <p class="text-red-900"><?php if(isset($error["username"])) echo $error["username"];?></p>
+                        
                     </div>
 
 
                     <div class="field  input space-y-3">
                         <label class="text-[#902c7e]"  for="password">Password</label>
                         <input type="password" name="password" id="password" placeholder="Password" required class="w-full px-3 py-2 border-2 rounded-lg">
+                        <p class="text-red-900"><?php if(isset($error["password"])) echo $error["password"];?></p>
+                        
+                   
                     </div>
 
                    
@@ -93,38 +150,3 @@ if(isset($_POST["submit"])) {
 </body>
 
 </html>
-
-<?php
-include 'config.php';
-
-if (isset($_POST['submit'])) {
-    $fname = $_POST['firstName'];
-    $lname = $_POST['lastName'];
-    $address = $_POST['address'];
-    $mobile = $_POST['mobile'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    // Hash the password
-    // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-    // Prepare and bind SQL statement
-    $sql = "INSERT INTO customer (firstname, lastname, address, mobile, email, password) VALUES (?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssss", $fname, $lname, $address, $mobile, $email, $password);
-
-    if ($stmt->execute()) {
-        // Account creation successful
-        echo '<script>alert("Account created successfully");</script>';
-        echo '<script>window.location.href = "login.php";</script>';
-        exit;
-    } else {
-        // Error handling
-        echo '<script>alert("Error: ' . $conn->error . '");</script>';
-    }
-
-    $stmt->close();
-}
-
-$conn->close();
-?>

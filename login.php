@@ -15,9 +15,16 @@ if (isset($_POST["submit"])) {
         $_SESSION["uid"] = $row["id"];
         $_SESSION["username"] = $row["username"];
         $_SESSION["role"] = $row["role"];
-        header("Location: index.php");
+
+        if($row["role"]=="admin") {
+        header("Location: admin.php");
+            
+        } else {
+
+            header("Location: index.php");
+        }
     } else {
-        echo "invalid username/password";
+        $error = "Invalid Username/Password";
     }
 }
 ?>
@@ -38,9 +45,10 @@ if (isset($_POST["submit"])) {
         <div class="box form-box w-[500px] shadow-xl mx-auto px-10 py-5 mt-10 ">
             <h1 class="head text-3xl font-bold text-center mb-5 text-[#902c7e]">Log in</h1>
             <div class="wrapper">
+            <p class="text-red-900 text-center"><?php if(isset($error)) echo $error;?></p>
                 <form action="" method="post" class=" space-y-5">
                     <div class="field  input space-y-3">
-                        <label class="text-[#902c7e]"  for="uname">Email/Username</label> <br/>
+                        <label class="text-[#902c7e]"  for="uname">Username</label> <br/>
                         <input type="text" name="username" id="uname" placeholder="Username" required class="w-full px-3 py-2 border-2 rounded-lg ">
                     </div>
 

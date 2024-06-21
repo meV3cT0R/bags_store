@@ -28,7 +28,7 @@
                 if (isset($_SESSION["username"])) {
                     ?>
                     <li class="inline-block">
-                        <form action="../logout.php" method="post"><button name="logout" class="inline-block text-[#ffe4c4] text-2xl   px-2 py-1 border-b-2  border-transparent hover:border-black"> log out</button></form>
+                        <form action="logout.php" method="post"><button name="logout" class="inline-block text-[#ffe4c4] text-2xl   px-2 py-1 border-b-2  border-transparent hover:border-black"> log out</button></form>
                     </li>
                     <?php
                 } else { ?>
