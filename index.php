@@ -38,7 +38,7 @@
 
                 include ("config.php");
 
-                $sql = "SELECT * FROM products ORDER BY createdDate DESC LIMIT 10;";
+                $sql = "SELECT * FROM products ps join product_name_price pnp on ps.pnp=pnp.id ORDER BY createdDate DESC LIMIT 10;";
                 $result = mysqli_query($conn, $sql);
                 while ($row = mysqli_fetch_assoc($result)) {
                     ?>

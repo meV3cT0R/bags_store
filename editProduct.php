@@ -39,10 +39,10 @@ if ($_SESSION["role"] !== "admin")
             ?>
 
             <div class="px-20">
-                <h1 class="text-3xl font-bold text-[#902c7e]"> Add Products </h1>
+                <h1 class="text-3xl font-bold text-[#902c7e]"> Update Product </h1>
                 <form action="prodEdit.php" method="POST" enctype="multipart/form-data"
                     class="space-y-8 flex flex-col w-[500px]  py-10">
-                    <input type="number" hidden value="<?= $id?>"/>
+                    <input type="number" name="id" hidden value="<?= $id?>"/>
                     <div>
                         <label class=""> Name </label> <br />
                         <input type="text" name="name" class="w-full border-2 rounded-lg py-2 px-1 " value="<?= $name ?>"  />
@@ -67,7 +67,7 @@ if ($_SESSION["role"] !== "admin")
                     <input type="file" name="image" class="text-white"  />
                     <button type="submit" name="submit"
                         class="w-full py-3 border-2 border-green-500 rounded-lg text-green-500 hover:bg-green-500 hover:text-white duration-300">
-                        add </button>
+                        update </button>
                 </form>
 
             </div>

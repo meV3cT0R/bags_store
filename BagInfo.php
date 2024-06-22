@@ -4,7 +4,7 @@ include ("config.php");
 if (isset($_GET['id'])) {
     // Retrieve the value of the parameter
     $id = $_GET['id'];
-    $result = $conn->query("select * from products where id=$id");
+    $result = $conn->query("select *,pnp.id as pnp_id from products ps join product_name_price pnp on ps.pnp=pnp.id where ps.id=$id ");
     $row = mysqli_fetch_assoc($result);
     ?>
     <!DOCTYPE html>
@@ -44,7 +44,7 @@ if (isset($_GET['id'])) {
 
                     <h1 class="text-3xl font-bold  capitalize text-[#902c7e]"> <?= $row["name"] ?></h1>
                     <h1 class="text-xl text-gray-500"> Brand :<span> <?= $row["brand"] ?> </span></h1>
-                    <h1 class="text-xl text-gray-500"> Rs.<?= $row["price"] ?></h1>
+                    <h1 class="text-xl text-gray-500"> Rs. <?= $row["price"] ?></h1>
 
 
                     <form action="/bags_store/addToCart.php" method="post">

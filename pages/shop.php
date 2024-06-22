@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["search"])) {
     $brand = $_POST["brand"];
     $price = $_POST["price"];
 
-    $sql = "SELECT * FROM products ";
+    $sql = "SELECT * FROM products ps join product_name_price pnp on ps.pnp=pnp.id ";
 
     if (trim($brand) != "all" && trim($price) != "") {
         $sql .= "where brand='$brand' and price <$price";
@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["search"])) {
     $product_result = $conn->query($sql);
 
 } else {
-    $product_result = $conn->query("SELECT * FROM products where price <= 1000;");
+    $product_result = $conn->query("SELECT * FROM products ps join product_name_price pnp on ps.pnp=pnp.id where price <= 1000;");
 }
 ?>
 <!DOCTYPE html>

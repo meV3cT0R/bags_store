@@ -1,9 +1,9 @@
 <?php
     function upload_image($file) {
-        echo UPLOAD_DIR;
+        if(!isset($file)) return;
         $target_file = UPLOAD_DIR ."/". basename($file["image"]["name"]);
         $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION)); 
         $check = getimagesize($file["image"]["tmp_name"]);
         if ($check) {
             $uploadOk = 1;

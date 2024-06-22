@@ -44,7 +44,7 @@ if ($_SESSION["role"] !== "admin")
                     <tbody class="divide-y divide-gray-200">
                         <?php
                         include ("config.php");
-                        $result = $conn->query("SELECT * FROM products;");
+                        $result = $conn->query("SELECT * FROM products ps join product_name_price pnp on ps.pnp=pnp.id;");
                         while ($row = mysqli_fetch_assoc($result)) {
                             ?>
                             <tr class="bg-gray-50">
